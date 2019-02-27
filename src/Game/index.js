@@ -11,17 +11,55 @@ const config = {
 
 const serial = new SerialPortReader();
 
+var map;
 // Phaser setup
 function create() {
 
+  cursors = this.input.keyboard.createCursorKeys();
+  
+  map = this.add.graphics({
+    fillStyle: { color: 0xff66ff },
+    lineStyle: { width: 3, color: 0xeeeeee }
+  });
 }
 
 function update(totalTime, deltaTime) {
+  cursors = this.input.keyboard.createCursorKeys();
+
+  map.clear();
+
+  map.save();
+  map.translate(config.width/2, config.height/2);
+  map.fillCircle(0,0,100);
+  map.restore();
+
+  // Keyboard controls
+  if (cursors.down.isDown) {
+    map = this.add.graphics({
+      fillStyle: { color: 0x00ffff } 
+    });
+  }
+
+  else if (cursors.up.isDown) {
+    map = this.add.graphics({
+      fillStyle: { color: 0xff66ff }
+    });
+  }
 
 }
 
 function onSerialMessage(msg) {
   // Put your serial reading code in here. msg will be a string
+  // if(command === 't') {
+  //   map = this.add.graphics({
+  //     fillStyle: { color: 0x00ffff } 
+  //   });
+  // }
+  // else if(command === 'b') {
+  //   map = this.add.graphics({
+  //     fillStyle: { color: 0xff66ff }
+  //   });
+  // }
   console.log(msg);
 }
 
